@@ -1,4 +1,20 @@
 {% extends 'base.html.twig' %}
+
+{% block header %}
+    <h1>EXPOSITION LAND</h1>
+{% endblock %}
+
 {% block body %}
-<h1></h1>
+    {% block main %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('app_pictures_new') }}">Ajouter une image</a>
+
+        {% endif %}
+        <section class="img-home">
+            {% for picture in pictures %}
+                <img width="100px" src="{{ asset('uploads/images/') ~ picture.picturesFiles }}" alt="aaaa">
+
+            {% endfor %}
+        </section>
+    {% endblock %}
 {% endblock %}
