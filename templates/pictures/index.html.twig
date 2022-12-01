@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Pictures index{% endblock %}
+{% block title %}Liste des photos{% endblock %}
 
 {% block body %}
-    <h1>Pictures index</h1>
+    <h1>Liste des photos</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>PicturesFiles</th>
+                <th>Photos</th>
                 <th>Description</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -21,8 +21,8 @@
                 <td>{{ picture.PicturesFiles }}</td>
                 <td>{{ picture.Description }}</td>
                 <td>
-                    <a href="{{ path('app_pictures_show', {'id': picture.id}) }}">show</a>
-                    <a href="{{ path('app_pictures_edit', {'id': picture.id}) }}">edit</a>
+                    <a href="{{ path('app_pictures_show', {'id': picture.id}) }}">Voir</a>
+                    <a href="{{ path('app_pictures_edit', {'id': picture.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +33,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_pictures_new') }}">Create new</a>
+    <a href="{{ path('app_pictures_new') }}">Nouvelle photo</a>
 {% endblock %}

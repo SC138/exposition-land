@@ -1,7 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block header %}
-    <h1>EXPOSITION LAND</h1>
+    <h1 class="home-h1">EXPOSITION LAND</h1>
+    {% if app.user %}
+    <p><span>Bonjour : {{ app.user.userIdentifier }} </span> </p>
+    <a href="{{ path('app_logout') }}">
+        Déconnexion</a>
+    {% else %}
+    <a class="login"  href="{{ path('app_login') }}">Connexion</a>
+    {% endif %}
 {% endblock %}
 
 {% block body %}
@@ -11,10 +18,9 @@
 
         {% endif %}
         <section class="img-home">
-            {% for picture in pictures %}
-                <img width="100px" src="{{ asset('uploads/images/') ~ picture.picturesFiles }}" alt="aaaa">
 
-            {% endfor %}
+                <img class="principal_image" src="{{ asset('uploads/images/image-6384cd2c7dd82.jpg') }}" alt="aaaa">
         </section>
+        <p> lorem*10 </p>
     {% endblock %}
 {% endblock %}

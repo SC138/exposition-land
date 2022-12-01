@@ -66,12 +66,28 @@ class PicturesController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_pictures_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Pictures $picture, PicturesRepository $picturesRepository): Response
+    public function edit(Request $request, Pictures $picture, PicturesRepository $picturesRepository, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(PicturesType::class, $picture);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $imageFile = $form->get('PicturesFiles')->getData();
+            // Je récupère le fichier image depuis le formulaire
+            // Je récupère le nom original du fichier
+            $originalFileName = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+            // J'utilise une instance de la classe slugger et sa méthode slug
+            // pour supprimer les caractères spéciaux et espace du nom de fichier
+            $safeFileName = $slugger->slug($originalFileName);
+            //Je rajoute au nom de fichier, un identifiant unique (en cas de doublon)
+            $fileName = $safeFileName.'-'.uniqid().'.'.$imageFile->guessExtension();
+            //Je déplace l'image dans le dossier public une fois renommée avec le nom créé
+            $imageFile->move(
+                $this->getParameter('images_directory'),
+                $fileName
+            );
+            $picture->setPicturesFiles($fileName);
+
             $picturesRepository->save($picture, true);
 
             return $this->redirectToRoute('app_pictures_index', [], Response::HTTP_SEE_OTHER);
